@@ -1,0 +1,41 @@
+model_definition:
+  framework:
+#framework name and version (supported list of frameworks available at 'bx ml list frameworks')
+    name: tensorflow
+    version: "1.15"
+  runtimes:
+      name: python
+      version: "3.6"
+#name of the training-run
+
+  name: thickness-vft-mat-test-f5-nodisc_rnfl #oct-mac-vft_si_exp15_vft-linear
+
+#Author name and email
+  author:
+    name: Yasmeen George
+    email: yasmeen.george1@ibm.com
+  description: Structure Function Association
+  execution:
+#Command to execute -- see script parameters in later section !'
+    command: export MPLBACKEND=Agg;pip install ipython; pip install scikit-image; pip install opencv-python-headless; pip install tensorpack ;  python train_2d.py --out_dir ${RESULT_DIR} --data_dir ${DATA_DIR} --pred THRESHOLD --task all --fold 5 --thickness_name nodisc_rnfl --load_model /mnt/results/structure-function-results/training-MGlBWoTMg/train_log/ --model_name model-676500 # 'nodisc_rnfl_gcipl', 'nodisc_rnfl','nodisc_gcipl' # Change train_2d, model_desc too
+    compute_configuration:
+#Valid values for name - k80/k80x2/k80x4/p100/p100x2/v100/v100x2
+      name: v100
+training_data_reference:
+  name: oct_vft
+  connection:
+    endpoint_url: "https://s3.us-south.cloud-object-storage.appdomain.cloud"
+    aws_access_key_id: "bb17809438ba4fba852786c5fab75faf"
+    aws_secret_access_key: "faf5c189aa75d9c52fdd27b70a609cec6ba57495db27bb9b"
+  source:
+    bucket: mac-onh-one-pair-per-visit
+  type: s3
+training_results_reference:
+  name: training_results
+  connection:
+    endpoint_url: "https://s3.us-south.cloud-object-storage.appdomain.cloud"
+    aws_access_key_id: "bb17809438ba4fba852786c5fab75faf"
+    aws_secret_access_key: "faf5c189aa75d9c52fdd27b70a609cec6ba57495db27bb9b"
+  target:
+    bucket: structure-function-results
+  type: s3
