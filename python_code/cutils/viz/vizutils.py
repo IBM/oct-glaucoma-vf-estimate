@@ -85,7 +85,7 @@ def figure2image_save(fig, file_name=None, bbox_inches='tight', dpi=None):
     :return:
     """
     if(file_name is None):
-        temp_file=os.tempnam()+'.png'
+        temp_file='temp.png'
     else:
         temp_file = file_name
     fig.savefig(temp_file, bbox_inches=bbox_inches, dpi= dpi)
